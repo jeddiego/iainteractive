@@ -7,7 +7,7 @@ import org.koin.android.ext.android.inject
 open class CinemoreliaActivity: AppCompatActivity() {
     val featuresProvider: IFeatureProvider by inject()
 
-    fun alerta(
+    fun showAlert(
         title: String,
         message: String,
         finish: Boolean,

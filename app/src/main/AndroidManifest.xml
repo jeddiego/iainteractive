@@ -34,7 +34,8 @@
             android:name=".ui.MainActivity"
             android:theme="@style/Theme.CineMorelia"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity" >
+        </activity>
 
 
     </application>

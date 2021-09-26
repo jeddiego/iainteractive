@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/claro</item>
+        <item name="android:statusBarColor">@color/design_default_color_primary_variant</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -22,4 +22,9 @@
     <style name="Theme.CineMorelia.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.CineMorelia.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

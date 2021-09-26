@@ -38,7 +38,7 @@ class LoginActivity: CinemoreliaActivity() {
                 bind.btLogin.isEnabled = true
                 val response = states.result
                 if(response.hasError) {
-                    alerta("Error inesperado", response.error!!.errorMessage, false, false, cancelable =  true)
+                    showAlert("Error inesperado", response.error!!.errorMessage, false, false, cancelable =  true)
                 } else {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
@@ -54,14 +54,14 @@ class LoginActivity: CinemoreliaActivity() {
             val password = bind.etPassword.text.toString()
 
             if (email.isBlank() || password.isBlank()) {
-                alerta(
+                showAlert(
                     getString(R.string.error),
                     getString(R.string.msg_empty_field_login),
                     false,
                     flash = true
                 )
             } else if (!validarCorreo(email)) {
-                alerta(
+                showAlert(
                     getString(R.string.error),
                     getString(R.string.msg_invalid_email),
                     false,

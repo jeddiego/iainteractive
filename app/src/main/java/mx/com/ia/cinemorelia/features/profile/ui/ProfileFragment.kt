@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import mx.com.ia.cinemorelia.R
 import mx.com.ia.cinemorelia.databinding.FragmentProfileBinding
+import mx.com.ia.cinemorelia.features.profile.models.ProfileBodyModel
 import mx.com.ia.cinemorelia.features.profile.viewmodel.ProfileViewModel
+import mx.com.ia.cinemorelia.ui.CinemoreliaFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ProfileFragment : Fragment() {
+class ProfileFragment: CinemoreliaFragment() {
 
     private val viewModel: ProfileViewModel by viewModel()
     private var _bind: FragmentProfileBinding? = null
-    private val binding get() = _bind!!
+    private val bind get() = _bind!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,13 +23,39 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _bind = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val root: View = bind.root
 
-        val textView: TextView = binding.textHome
-        viewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
+        actions()
+        viewBinding()
         return root
+    }
+
+    private fun actions() {
+        viewModel.action(ProfileViewModel.Actions.GetUserData)
+    }
+
+    private fun viewBinding() {
+        viewModel.getUserData().observe(viewLifecycleOwner, ::responses)
+    }
+
+    private fun responses(states: ProfileViewModel.StateActions) {
+        when(states) {
+            is ProfileViewModel.StateActions.Loading -> {
+                bind.pbProfile.visibility = View.VISIBLE
+            }
+            is ProfileViewModel.StateActions.GetUserDataResult -> {
+                val response = states.result
+                if(response.hasError) {
+                    showAlert("Error inesperado", response.error!!.errorMessage, false, false, cancelable =  true)
+                } else {
+                    val user = response.result!!
+                    bind.tvName.text = getString(R.string.full_name, user.firstName, user.lastName)
+                    bind.tvEmail.text = user.email
+                    bind.tvClub.text = user.card.toString()
+                }
+                bind.pbProfile.visibility = View.GONE
+            }
+        }
     }
 
     override fun onDestroyView() {
