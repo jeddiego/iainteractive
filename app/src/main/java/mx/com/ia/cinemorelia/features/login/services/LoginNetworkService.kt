@@ -20,7 +20,7 @@ class LoginNetworkService(
 ) : ILoginNetworkService, KoinComponent {
     private val featureProvider: IFeatureProvider by inject()
 
-    override fun login(body: LoginBodyModel): Result<Any> {
+    override fun login(body: LoginBodyModel): Result<LoginResponseModel> {
         return try {
             val result = retrofit.login(
                 "country_code=${body.country_code}&username=${body.username}&password=${body.password}&grant_type=${body.grant_type}&client_id=${body.client_id}&client_secret=${body.client_secret}"
@@ -51,7 +51,7 @@ class LoginNetworkService(
 }
 
 interface ILoginNetworkService {
-    fun login(body: LoginBodyModel): Result<Any>
+    fun login(body: LoginBodyModel): Result<LoginResponseModel>
 }
 
 interface LoginRetrofitDefinition {

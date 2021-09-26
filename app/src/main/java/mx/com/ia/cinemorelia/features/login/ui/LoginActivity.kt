@@ -1,5 +1,6 @@
 package mx.com.ia.cinemorelia.features.login.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -8,6 +9,7 @@ import mx.com.ia.cinemorelia.databinding.ActivityLoginBinding
 import mx.com.ia.cinemorelia.features.login.models.LoginBodyModel
 import mx.com.ia.cinemorelia.features.login.viewmodel.LoginViewModel
 import mx.com.ia.cinemorelia.ui.CinemoreliaActivity
+import mx.com.ia.cinemorelia.ui.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity: CinemoreliaActivity() {
@@ -38,9 +40,8 @@ class LoginActivity: CinemoreliaActivity() {
                 if(response.hasError) {
                     alerta("Error inesperado", response.error!!.errorMessage, false, false, cancelable =  true)
                 } else {
-                    showToast("Iniciando catalogos activity")
-//                    startActivity(Intent(this, CatalogosActivity::class.java))
-//                    finish()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
                 }
                 bind.pbLogin.visibility = View.GONE
             }

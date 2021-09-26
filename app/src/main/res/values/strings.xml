@@ -21,4 +21,6 @@
     <string name="error_title_login">Error de login</string>
     <string name="exception_title_login">Excepcion en petición</string>
     <string name="exception_body_login">Excepcion en petición: %1s</string>
+    <string name="title_movies">Cartelera</string>
+    <string name="title_profile">Perfil</string>
 </resources>

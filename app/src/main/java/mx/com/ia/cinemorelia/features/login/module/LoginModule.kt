@@ -17,7 +17,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 val loginModule = module {
     viewModel { LoginViewModel(get(), get()) as LoginViewModel }
-    factory { LoginUseCases(get()) as ILoginUseCases }
+    factory { LoginUseCases(get(), get()) as ILoginUseCases }
     single { LoginNetworkService(get()) as ILoginNetworkService }
     single {
         val logging = HttpLoggingInterceptor()
