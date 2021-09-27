@@ -11,20 +11,19 @@ import com.bumptech.glide.request.target.Target
 import com.xwray.groupie.viewbinding.BindableItem
 import mx.com.ia.cinemorelia.R
 import mx.com.ia.cinemorelia.databinding.ItemMovieBinding
+import mx.com.ia.cinemorelia.datasource.entities.MoviesEntity
 import mx.com.ia.cinemorelia.features.movies.models.MoviesModel
 import mx.com.ia.cinemorelia.utils.IFeatureProvider
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class MoviesItemView(
-    val movie: MoviesModel,
+    val movie: MoviesEntity,
     private val context: Context
 ): BindableItem<ItemMovieBinding>() {
 
     override fun bind(bind: ItemMovieBinding, position: Int) {
-        var media = ""
-        movie.media.forEach { if(it.code == "poster") { media = it.resource } }
-        val url = "${movie.posterUrl}$media"
+        var url = "${movie.posterUrl}${movie.poster}"
 
         bind.tvMovie.text = movie.name
         Glide.with(context)

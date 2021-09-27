@@ -1,33 +1,66 @@
 package mx.com.ia.cinemorelia.features.movies.usecase
 
 import mx.com.ia.cinemorelia.core.Result
-import mx.com.ia.cinemorelia.features.movies.models.MoviesResponseModel
+import mx.com.ia.cinemorelia.datasource.entities.MoviesEntity
+import mx.com.ia.cinemorelia.features.movies.MoviesPolicy
+import mx.com.ia.cinemorelia.features.movies.services.IMoviesLocalService
 import mx.com.ia.cinemorelia.features.movies.services.IMoviesNetworkService
 
 class MoviesUseCases(
-    private val networkService: IMoviesNetworkService
-): IMoviesUseCases {
-    override fun getMovies(): Result<MoviesResponseModel> {
+    private val networkService: IMoviesNetworkService,
+    private val localService: IMoviesLocalService
+) : IMoviesUseCases {
+    override fun getMovies(): Result<List<MoviesEntity>> {
         val requestMovies = networkService.getMovies()
-        if(requestMovies.hasError) {
-            return Result(null, requestMovies.error)
+        val validateResponse = MoviesPolicy.validateRequestMovies(requestMovies)
+        if (validateResponse.hasError) {
+            return Result(null, validateResponse.error)
         }
 
-        var posterUrl = ""
+        val moviesEntity = if (validateResponse.result!!) {
+            var posterUrl = ""
             requestMovies.result!!.routes.forEach { route ->
-            if(route.code == "poster") {
-                posterUrl = route.sizes.large ?: ""
+                if (route.code == "poster") {
+                    posterUrl = route.sizes.large ?: ""
+                }
             }
+
+            val moviesEntity = mutableListOf<MoviesEntity>()
+
+            requestMovies.result.movies.forEach { movie ->
+                movie.posterUrl = posterUrl
+
+                var media = ""
+                movie.media.forEach {
+                    if (it.code == "poster") {
+                        media = it.resource
+                    }
+                }
+
+                moviesEntity.add(
+                    MoviesEntity(
+                        movie.id,
+                        media,
+                        movie.name,
+                        movie.genre,
+                        movie.synopsis,
+                        movie.length,
+                        movie.rating,
+                        movie.posterUrl
+                    )
+                )
+            }
+
+            localService.insertAll(moviesEntity)
+            moviesEntity
+        } else {
+            localService.getAll()
         }
 
-        requestMovies.result.movies.forEach { movie ->
-            movie.posterUrl = posterUrl
-        }
-
-        return Result(requestMovies.result)
+        return Result(moviesEntity)
     }
 }
 
 interface IMoviesUseCases {
-    fun getMovies(): Result<MoviesResponseModel>
+    fun getMovies(): Result<List<MoviesEntity>>
 }

@@ -1,9 +1,7 @@
 package mx.com.ia.cinemorelia.features.movies.module
 
 import mx.com.ia.cinemorelia.BuildConfig
-import mx.com.ia.cinemorelia.features.movies.services.IMoviesNetworkService
-import mx.com.ia.cinemorelia.features.movies.services.MoviesNetworkService
-import mx.com.ia.cinemorelia.features.movies.services.MoviesRetrofitDefinition
+import mx.com.ia.cinemorelia.features.movies.services.*
 import mx.com.ia.cinemorelia.features.movies.usecase.IMoviesUseCases
 import mx.com.ia.cinemorelia.features.movies.usecase.MoviesUseCases
 import mx.com.ia.cinemorelia.features.movies.viewmodel.MoviesViewModel
@@ -17,8 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val moviesModule = module {
     viewModel { MoviesViewModel(get(), get()) }
-    factory { MoviesUseCases(get()) as IMoviesUseCases }
+    factory { MoviesUseCases(get(), get()) as IMoviesUseCases }
     single { MoviesNetworkService(get()) as IMoviesNetworkService }
+    single { MoviesLocalService(get()) as IMoviesLocalService }
     single {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)

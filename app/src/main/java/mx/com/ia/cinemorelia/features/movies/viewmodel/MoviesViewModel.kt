@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import mx.com.ia.cinemorelia.core.IDispatcher
 import mx.com.ia.cinemorelia.core.Result
-import mx.com.ia.cinemorelia.features.movies.models.MoviesResponseModel
+import mx.com.ia.cinemorelia.datasource.entities.MoviesEntity
 import mx.com.ia.cinemorelia.features.movies.usecase.IMoviesUseCases
 
 class MoviesViewModel(
@@ -36,6 +36,6 @@ class MoviesViewModel(
 
     sealed class StateActions {
         object Loading : StateActions()
-        data class GetMoviesResult(val result: Result<MoviesResponseModel>): StateActions()
+        data class GetMoviesResult(val result: Result<List<MoviesEntity>>): StateActions()
     }
 }

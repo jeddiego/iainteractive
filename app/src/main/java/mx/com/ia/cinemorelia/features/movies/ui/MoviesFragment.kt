@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import mx.com.ia.cinemorelia.databinding.FragmentMoviesBinding
-import mx.com.ia.cinemorelia.features.movies.models.MoviesModel
+import mx.com.ia.cinemorelia.datasource.entities.MoviesEntity
 import mx.com.ia.cinemorelia.features.movies.viewmodel.MoviesViewModel
 import mx.com.ia.cinemorelia.features.movies.views.MoviesItemView
 import mx.com.ia.cinemorelia.ui.CinemoreliaFragment
@@ -50,7 +50,7 @@ class MoviesFragment : CinemoreliaFragment() {
         }
     }
 
-    private fun populateMovies(movies: List<MoviesModel>) {
+    private fun populateMovies(movies: List<MoviesEntity>) {
         moviesAdapter.apply {
             clear()
             movies.forEach {
@@ -77,7 +77,7 @@ class MoviesFragment : CinemoreliaFragment() {
                 if(response.hasError) {
                     showAlert("Error inesperado", response.error!!.errorMessage, false, false, cancelable =  true)
                 } else {
-                    populateMovies(response.result!!.movies)
+                    populateMovies(response.result!!)
                 }
                 bind.pbMovies.visibility = View.GONE
             }
