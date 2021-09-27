@@ -12,7 +12,7 @@ android {
         minSdk 23
         targetSdk 30
         versionCode 1
-        versionName "1.0.3"
+        versionName "1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -75,4 +75,8 @@ dependencies {
     //Groupie
     implementation "com.xwray:groupie:$groupie_version"
     implementation "com.xwray:groupie-viewbinding:$groupie_version"
+
+    //Glide
+    kapt "com.github.bumptech.glide:compiler:4.10.0"
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 }

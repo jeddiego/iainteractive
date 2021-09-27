@@ -51,6 +51,7 @@ class ProfileFragment: CinemoreliaFragment() {
                     val user = response.result!!
                     bind.tvName.text = getString(R.string.full_name, user.firstName, user.lastName)
                     bind.tvEmail.text = user.email
+                    bind.tvTitleClub.text = getString(R.string.tit_club_number)
                     bind.tvClub.text = user.card.toString()
                 }
                 bind.pbProfile.visibility = View.GONE

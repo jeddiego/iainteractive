@@ -7,10 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import mx.com.ia.cinemorelia.core.IDispatcher
 import mx.com.ia.cinemorelia.core.Result
-import mx.com.ia.cinemorelia.features.profile.models.ProfileBodyModel
 import mx.com.ia.cinemorelia.features.profile.models.ProfileModel
 import mx.com.ia.cinemorelia.features.profile.usecase.IProfileUseCases
-import mx.com.ia.cinemorelia.features.profile.usecase.ProfileUseCases
 
 class ProfileViewModel(
     private val dispatcher: IDispatcher,

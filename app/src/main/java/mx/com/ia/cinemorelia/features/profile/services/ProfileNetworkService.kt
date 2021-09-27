@@ -3,7 +3,6 @@ package mx.com.ia.cinemorelia.features.profile.services
 import mx.com.ia.cinemorelia.R
 import mx.com.ia.cinemorelia.core.Error
 import mx.com.ia.cinemorelia.core.Result
-import mx.com.ia.cinemorelia.features.profile.models.ProfileBodyModel
 import mx.com.ia.cinemorelia.features.profile.models.ProfileModel
 import mx.com.ia.cinemorelia.utils.IFeatureProvider
 import org.json.JSONObject
@@ -27,7 +26,7 @@ class ProfileNetworkService(
                 Result(
                     null,
                     Error(
-                        featureProvider.getAppContext().getString(R.string.error_title_login),
+                        featureProvider.getAppContext().getString(R.string.error_title),
                         jObjError.getJSONObject("error").getString("message")
                     )
                 )

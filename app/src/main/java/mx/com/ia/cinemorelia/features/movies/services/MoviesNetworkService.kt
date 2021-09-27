@@ -1,30 +1,24 @@
-package mx.com.ia.cinemorelia.features.login.services
+package mx.com.ia.cinemorelia.features.movies.services
 
 import mx.com.ia.cinemorelia.R
 import mx.com.ia.cinemorelia.core.Error
 import mx.com.ia.cinemorelia.core.Result
-import mx.com.ia.cinemorelia.features.login.models.LoginBodyModel
-import mx.com.ia.cinemorelia.features.login.models.LoginResponseModel
+import mx.com.ia.cinemorelia.features.movies.models.MoviesResponseModel
 import mx.com.ia.cinemorelia.utils.IFeatureProvider
 import org.json.JSONObject
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
-
-class LoginNetworkService(
-    private val retrofit: LoginRetrofitDefinition
-) : ILoginNetworkService, KoinComponent {
+class MoviesNetworkService(
+    private val retrofit: MoviesRetrofitDefinition
+) : IMoviesNetworkService, KoinComponent {
     private val featureProvider: IFeatureProvider by inject()
 
-    override fun login(body: LoginBodyModel): Result<LoginResponseModel> {
+    override fun getMovies(): Result<MoviesResponseModel> {
         return try {
-            val result = retrofit.login(
-                "country_code=${body.country_code}&username=${body.username}&password=${body.password}&grant_type=${body.grant_type}&client_id=${body.client_id}&client_secret=${body.client_secret}"
-            ).execute()
+            val result = retrofit.getMovies().execute()
             if (result.isSuccessful) {
                 Result(result.body())
             } else {
@@ -50,14 +44,12 @@ class LoginNetworkService(
     }
 }
 
-interface ILoginNetworkService {
-    fun login(body: LoginBodyModel): Result<LoginResponseModel>
+interface IMoviesNetworkService {
+    fun getMovies(): Result<MoviesResponseModel>
 }
 
-interface LoginRetrofitDefinition {
+interface MoviesRetrofitDefinition {
     @Headers("api_key: stage_HNYh3RaK_Test")
-    @POST("oauth/token")
-    fun login(
-        @Body data: String
-    ): Call<LoginResponseModel>
+    @GET("movies?country_code=MX&cinema=61")
+    fun getMovies(): Call<MoviesResponseModel>
 }

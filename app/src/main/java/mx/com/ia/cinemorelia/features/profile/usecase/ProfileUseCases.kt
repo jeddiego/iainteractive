@@ -1,7 +1,6 @@
 package mx.com.ia.cinemorelia.features.profile.usecase
 
 import mx.com.ia.cinemorelia.core.Result
-import mx.com.ia.cinemorelia.features.profile.models.ProfileBodyModel
 import mx.com.ia.cinemorelia.features.profile.models.ProfileModel
 import mx.com.ia.cinemorelia.features.profile.services.IProfileNetworkService
 import mx.com.ia.cinemorelia.policy.CinemoreliaPolicy.Companion.key_access_token
