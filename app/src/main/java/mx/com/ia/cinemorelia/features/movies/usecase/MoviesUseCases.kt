@@ -19,9 +19,13 @@ class MoviesUseCases(
 
         val moviesEntity = if (validateResponse.result!!) {
             var posterUrl = ""
+            var trailer = ""
             requestMovies.result!!.routes.forEach { route ->
                 if (route.code == "poster") {
                     posterUrl = route.sizes.large ?: ""
+                }
+                if(route.code == "trailer_mp4") {
+                    trailer = route.sizes.medium ?: ""
                 }
             }
 
@@ -41,6 +45,7 @@ class MoviesUseCases(
                     MoviesEntity(
                         movie.id,
                         media,
+                        trailer,
                         movie.name,
                         movie.genre,
                         movie.synopsis,

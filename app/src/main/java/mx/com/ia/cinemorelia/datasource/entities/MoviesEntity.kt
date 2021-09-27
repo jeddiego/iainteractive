@@ -8,6 +8,7 @@ data class MoviesEntity(
     @PrimaryKey
     val id: Long,
     val poster: String,
+    val trailer: String,
     val name: String,
     val genre: String,
     val synopsis: String,
