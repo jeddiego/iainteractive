@@ -15,6 +15,7 @@ class MoviesViewModel(
     private val useCases: IMoviesUseCases
 ): ViewModel() {
     private val _getMovies = MutableLiveData<StateActions>()
+    private val _getMovie = MutableLiveData<StateActions>()
 
     fun action(action: Actions) {
         when (action) {
@@ -25,17 +26,27 @@ class MoviesViewModel(
                     _getMovies.postValue(StateActions.GetMoviesResult(result))
                 }
             }
+            is Actions.GetMovie -> {
+                _getMovie.value = StateActions.Loading
+                viewModelScope.launch(dispatcher.getIOThread()) {
+                    val result = useCases.getMovieById(action.idMovie)
+                    _getMovie.postValue(StateActions.GetMovieResult(result))
+                }
+            }
         }
     }
 
     fun getMovies(): LiveData<StateActions> = _getMovies
+    fun getMovie(): LiveData<StateActions> = _getMovie
 
     sealed class Actions {
         object GetMovies: Actions()
+        data class GetMovie(val idMovie: Long): Actions()
     }
 
     sealed class StateActions {
         object Loading : StateActions()
         data class GetMoviesResult(val result: Result<List<MoviesEntity>>): StateActions()
+        data class GetMovieResult(val result: Result<MoviesEntity>): StateActions()
     }
 }

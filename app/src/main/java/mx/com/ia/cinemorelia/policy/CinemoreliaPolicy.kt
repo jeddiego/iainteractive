@@ -10,5 +10,7 @@ class CinemoreliaPolicy {
         const val key_access_token = "access_token"
         const val key_user_logged = "user_logged"
 
+        //Extras
+        const val extra_id_movie = "extra_id_movie"
     }
 }

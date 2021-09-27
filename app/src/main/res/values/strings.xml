@@ -26,4 +26,5 @@
     <string name="cinema_name">Cine Morelia</string>
     <string name="full_name">%1s %2s</string>
     <string name="tit_club_number">Tarjeta club:</string>
+    <string name="unexpected_error">Error inesperado</string>
 </resources>

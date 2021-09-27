@@ -14,5 +14,6 @@ data class MoviesEntity(
     val synopsis: String,
     val length: String,
     val rating: String,
-    var posterUrl: String
+    var posterUrl: String,
+    var trailerUrl: String
 )

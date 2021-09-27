@@ -13,4 +13,7 @@ interface MoviesDao {
 
     @Query("SELECT * FROM movies")
     fun getAll(): List<MoviesEntity>
+
+    @Query("SELECT * FROM movies WHERE id = :idMovie")
+    fun getMovieById(idMovie: Long): MoviesEntity
 }

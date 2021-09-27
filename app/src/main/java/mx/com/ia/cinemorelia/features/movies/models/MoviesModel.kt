@@ -8,5 +8,6 @@ data class MoviesModel(
     val synopsis: String,
     val length: String,
     val rating: String,
-    var posterUrl: String
+    var posterUrl: String,
+    var trailerUrl: String
 )

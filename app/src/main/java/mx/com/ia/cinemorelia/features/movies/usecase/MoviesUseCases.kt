@@ -19,13 +19,13 @@ class MoviesUseCases(
 
         val moviesEntity = if (validateResponse.result!!) {
             var posterUrl = ""
-            var trailer = ""
+            var trailerUrl = ""
             requestMovies.result!!.routes.forEach { route ->
                 if (route.code == "poster") {
                     posterUrl = route.sizes.large ?: ""
                 }
                 if(route.code == "trailer_mp4") {
-                    trailer = route.sizes.medium ?: ""
+                    trailerUrl = route.sizes.medium ?: ""
                 }
             }
 
@@ -33,25 +33,31 @@ class MoviesUseCases(
 
             requestMovies.result.movies.forEach { movie ->
                 movie.posterUrl = posterUrl
+                movie.trailerUrl = trailerUrl
 
-                var media = ""
+                var poster = ""
+                var trailer = ""
                 movie.media.forEach {
                     if (it.code == "poster") {
-                        media = it.resource
+                        poster = it.resource
+                    }
+                    if (it.code == "trailer_mp4") {
+                        trailer = it.resource
                     }
                 }
 
                 moviesEntity.add(
                     MoviesEntity(
-                        movie.id,
-                        media,
-                        trailer,
-                        movie.name,
-                        movie.genre,
-                        movie.synopsis,
-                        movie.length,
-                        movie.rating,
-                        movie.posterUrl
+                        id = movie.id,
+                        poster = poster,
+                        trailer = trailer,
+                        name = movie.name,
+                        genre = movie.genre,
+                        synopsis = movie.synopsis,
+                        length = movie.length,
+                        rating = movie.rating,
+                        posterUrl = movie.posterUrl,
+                        trailerUrl = trailerUrl
                     )
                 )
             }
@@ -64,8 +70,14 @@ class MoviesUseCases(
 
         return Result(moviesEntity)
     }
+
+    override fun getMovieById(idMovie: Long): Result<MoviesEntity> {
+        val movie = localService.getMovieById(idMovie)
+        return Result(movie)
+    }
 }
 
 interface IMoviesUseCases {
     fun getMovies(): Result<List<MoviesEntity>>
+    fun getMovieById(idMovie: Long): Result<MoviesEntity>
 }

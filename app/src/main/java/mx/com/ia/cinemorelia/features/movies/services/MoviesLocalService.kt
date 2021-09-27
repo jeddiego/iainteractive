@@ -13,9 +13,14 @@ class MoviesLocalService(
     override fun getAll(): List<MoviesEntity> {
         return room.MoviesDao().getAll()
     }
+
+    override fun getMovieById(idMovie: Long): MoviesEntity {
+        return room.MoviesDao().getMovieById(idMovie)
+    }
 }
 
 interface IMoviesLocalService {
     fun insertAll(movies: List<MoviesEntity>)
     fun getAll(): List<MoviesEntity>
+    fun getMovieById(idMovie: Long): MoviesEntity
 }

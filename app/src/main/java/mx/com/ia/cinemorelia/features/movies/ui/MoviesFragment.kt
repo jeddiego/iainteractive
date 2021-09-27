@@ -1,5 +1,6 @@
 package mx.com.ia.cinemorelia.features.movies.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +8,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import mx.com.ia.cinemorelia.R
 import mx.com.ia.cinemorelia.databinding.FragmentMoviesBinding
 import mx.com.ia.cinemorelia.datasource.entities.MoviesEntity
 import mx.com.ia.cinemorelia.features.movies.viewmodel.MoviesViewModel
 import mx.com.ia.cinemorelia.features.movies.views.MoviesItemView
+import mx.com.ia.cinemorelia.policy.CinemoreliaPolicy.Companion.extra_id_movie
 import mx.com.ia.cinemorelia.ui.CinemoreliaFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -23,7 +26,10 @@ class MoviesFragment : CinemoreliaFragment() {
         setOnItemClickListener { item, _ ->
             if(item is MoviesItemView) {
                 val movie = item.movie
-
+                val intent = Intent(requireActivity(), MoviesDetailActivity::class.java).apply {
+                    putExtra(extra_id_movie, movie.id)
+                }
+                startActivity(intent)
             }
         }
     }
@@ -75,7 +81,7 @@ class MoviesFragment : CinemoreliaFragment() {
             is MoviesViewModel.StateActions.GetMoviesResult -> {
                 val response = states.result
                 if(response.hasError) {
-                    showAlert("Error inesperado", response.error!!.errorMessage, false, false, cancelable =  true)
+                    showAlert(getString(R.string.unexpected_error), response.error!!.errorMessage, false, false, cancelable =  true)
                 } else {
                     populateMovies(response.result!!)
                 }
